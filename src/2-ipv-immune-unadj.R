@@ -32,6 +32,21 @@ Yvars_t3 <- c("t3_ratio_th1_th2",
               "t3_ratio_gmc_il10", "t3_ratio_il12_il10",
               "igf_t3","crp_t3","agp_t3","ifng_t3")
 
+
+# igf_t3	life_viol_any_t3 -6.3614348
+# agp_t3	viol_any_t2 0.0379352
+# t2_ratio_th17_il10	viol_any_preg 0.1023707	
+# summary(glm(igf_t3 ~	life_viol_any_t3, data=d))
+# summary(glm(agp_t3 ~	viol_any_t2, data=d))
+# summary(glm(t2_ratio_th17_il10 ~	viol_any_preg, data=d))
+# 
+# 
+# summary(glm(igf_t3 ~	agp_t3, data=d))
+# res_unadj <- fit_RE_gam(d=d, X="agp_t3", Y="igf_t3",  W=NULL)
+# preds <- predict_gam_diff(fit=res_unadj$fit, d=res_unadj$dat, quantile_diff=c(0.25,0.75), Xvar="agp_t3", Yvar="igf_t3")
+# preds$res
+
+
 #Fit models
 H1_models <- NULL
 for(i in Xvars_t2){
