@@ -15,22 +15,36 @@ colnames(d)
 #of anti-inflammatory/immuno-regulatory factors).
 # Exposures: Maternal exposure to IPV during pregnancy, IPV during the child's first year of life, and 
 #cumulative lifetime exposure to IPV at Year 2 as measured by the WHO Women's Health and Life Experiences Survey
-Xvars <- c("viol_any_preg","viol_any_t2","life_viol_any_t3")            
+Xvars_t2 <- c("viol_any_preg","viol_any_t2")            
+Xvars_t3 <- c("life_viol_any_t3")            
 
 # Outcomes: Child sum score of systemic inflammation, Th1/Th2, 
 #Th1/Th17, Th1/IL-10, Th2/IL-10, Th17/IL-10, 
 #GM-CSF/IL-10, and IL-2/IL-10 cytokine ratios, IGF-1, CRP, and AGP at Years 1 and 2.
-Yvars <- c("cesd_sum_t2","cesd_sum_ee_t3","t2_ratio_th1_th2","t3_ratio_th1_th2",
+Yvars <- c("t2_ratio_th1_th2","t3_ratio_th1_th2",
            "t2_ratio_th1_th17","t3_ratio_th1_th17", "t2_ratio_th1_il10","t3_ratio_th1_il10",
            "t2_ratio_th2_il10","t3_ratio_th2_il10", "t2_ratio_th17_il10","t3_ratio_th17_il10",
            "t2_ratio_gmc_il10","t3_ratio_gmc_il10", "t2_ratio_il12_il10","t3_ratio_il12_il10",
-           "igf_t2","igf_t3","crp_t2","crp_t3","agp_t2","agp_t3")
-           
+           "igf_t2","igf_t3","crp_t2","crp_t3","agp_t2","agp_t3","ifng_t2","ifng_t3")
+Yvars_t3 <- c("t3_ratio_th1_th2",
+              "t3_ratio_th1_th17","t3_ratio_th1_il10",
+              "t3_ratio_th2_il10", "t3_ratio_th17_il10",
+              "t3_ratio_gmc_il10", "t3_ratio_il12_il10",
+              "igf_t3","crp_t3","agp_t3","ifng_t3")
 
 #Fit models
 H1_models <- NULL
-for(i in Xvars){
+for(i in Xvars_t2){
   for(j in Yvars){
+    cat(i,"\n")
+    cat(j,"\n")
+    res_unadj <- fit_RE_gam(d=d, X=i, Y=j,  W=NULL)
+    res <- data.frame(X=i, Y=j, fit=I(list(res_unadj$fit)), dat=I(list(res_unadj$dat)))
+    H1_models <- bind_rows(H1_models, res)
+  }
+}
+for(i in Xvars_t3){
+  for(j in Yvars_t3){
     cat(i,"\n")
     cat(j,"\n")
     res_unadj <- fit_RE_gam(d=d, X=i, Y=j,  W=NULL)
@@ -43,7 +57,7 @@ for(i in Xvars){
 H1_res <- NULL
 for(i in 1:nrow(H1_models)){
   res <- data.frame(X=H1_models$X[i], Y=H1_models$Y[i])
-  preds <- predict_gam_diff(fit=H1_models$fit[i][[1]], d=H1_models$dat[i][[1]], quantile_diff=c(0.25,0.75), Xvar=res$X, Yvar=res$Y)
+  preds <- predict_gam_diff(fit=H1_models$fit[i][[1]], d=H1_models$dat[i][[1]], quantile_diff=c(0.25,0.75), Xvar=res$X, Yvar=res$Y, binaryX=TRUE)
   H1_res <-  bind_rows(H1_res , preds$res)
 }
 
@@ -79,15 +93,11 @@ saveRDS(H1_plot_data, here("figure-data/H1_unadj_spline_data.RDS"))
 Xvars <- c("pss_sum_mom_t3", "pss_sum_dad_t3")
 # Outcomes: Child sum score of systemic inflammation, Th1/Th2, Th1/Th17, Th1/IL-10, Th2/IL-10, Th17/IL-10, GM-CSF/IL-10, and 
 #IL-2/IL-10 cytokine ratios, IGF-1, CRP, and AGP at Year 2.
-Yvars <- c("cesd_sum_t2","cesd_sum_ee_t3","t2_ratio_th1_th2","t3_ratio_th1_th2",
-           "t2_ratio_th1_th17","t3_ratio_th1_th17", "t2_ratio_th1_il10","t3_ratio_th1_il10",
-           "t2_ratio_th2_il10","t3_ratio_th2_il10", "t2_ratio_th17_il10","t3_ratio_th17_il10",
-           "t2_ratio_gmc_il10","t3_ratio_gmc_il10", "t2_ratio_il12_il10","t3_ratio_il12_il10",
-           "igf_t2","igf_t3","crp_t2","crp_t3","agp_t2","agp_t3")
+
 #Fit models
 H2_models <- NULL
 for(i in Xvars){
-  for(j in Yvars){
+  for(j in Yvars_t3){
     res_unadj <- fit_RE_gam(d=d, X=i, Y=j,  W=NULL)
     res <- data.frame(X=i, Y=j, fit=I(list(res_unadj$fit)), dat=I(list(res_unadj$dat)))
     H2_models <- bind_rows(H2_models, res)
@@ -131,17 +141,25 @@ saveRDS(H2_plot_data, here("figure-data/H2_unadj_spline_data.RDS"))
 #### Hypothesis 3: 
 # 3.	Maternal depressive symptoms, measured on a continuous scale at Years 1 and 2, is associated with child systemic inflammation at Years 1 and 2 (defined as higher concentrations of pro-inflammatory factors and/or lower concentrations of anti-inflammatory/immuno-regulatory factors). 
 # Exposures: Maternal Center for Epidemiologic Studies (CES-D) Scale score at Years 1 and 2
-Xvars <- c("cesd_sum_t2","cesd_sum_ee_t3")
+Xvars_t2 <- c("cesd_sum_t2")
+Xvars_t3 <- c("cesd_sum_ee_t3")
 # Outcomes: Child sum score of systemic inflammation, Th1/Th2, Th1/Th17, Th1/IL-10, Th2/IL-10, Th17/IL-10, GM-CSF/IL-10, and IL-2/IL-10 cytokine ratios, IGF-1, CRP, and AGP at Years 1 and 2.
-Yvars <- c("cesd_sum_t2","cesd_sum_ee_t3","t2_ratio_th1_th2","t3_ratio_th1_th2",
-           "t2_ratio_th1_th17","t3_ratio_th1_th17", "t2_ratio_th1_il10","t3_ratio_th1_il10",
-           "t2_ratio_th2_il10","t3_ratio_th2_il10", "t2_ratio_th17_il10","t3_ratio_th17_il10",
-           "t2_ratio_gmc_il10","t3_ratio_gmc_il10", "t2_ratio_il12_il10","t3_ratio_il12_il10",
-           "igf_t2","igf_t3","crp_t2","crp_t3","agp_t2","agp_t3")
+
 #Fit models
 H3_models <- NULL
-for(i in Xvars){
+for(i in Xvars_t2){
   for(j in Yvars){
+    cat(i,"\n")
+    cat(j,"\n")
+    res_unadj <- fit_RE_gam(d=d, X=i, Y=j,  W=NULL)
+    res <- data.frame(X=i, Y=j, fit=I(list(res_unadj$fit)), dat=I(list(res_unadj$dat)))
+    H3_models <- bind_rows(H3_models, res)
+  }
+}
+for(i in Xvars_t3){
+  for(j in Yvars_t3){
+    cat(i,"\n")
+    cat(j,"\n")
     res_unadj <- fit_RE_gam(d=d, X=i, Y=j,  W=NULL)
     res <- data.frame(X=i, Y=j, fit=I(list(res_unadj$fit)), dat=I(list(res_unadj$dat)))
     H3_models <- bind_rows(H3_models, res)

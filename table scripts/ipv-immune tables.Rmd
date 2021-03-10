@@ -1,0 +1,43 @@
+---
+title: "ipv-immune tables"
+author: "Andrew Mertens"
+date: "3/9/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+```
+
+# Adjusted
+
+```{r, echo=FALSE}
+
+H1_res <- readRDS("C:/Users/andre/Documents/EE/ipv-dep-stress-immune/results/H1_adj_res.RDS") %>% arrange(Pval)
+H2_res <- readRDS("C:/Users/andre/Documents/EE/ipv-dep-stress-immune/results/H2_adj_res.RDS") %>% arrange(Pval)
+H3_res <- readRDS("C:/Users/andre/Documents/EE/ipv-dep-stress-immune/results/H3_adj_res.RDS") %>% arrange(Pval)
+
+knitr::kable(H1_res)
+knitr::kable(H2_res)
+knitr::kable(H3_res)
+
+```
+
+# Unadjusted
+
+```{r, echo=FALSE}
+
+H1_res <- readRDS("C:/Users/andre/Documents/EE/ipv-dep-stress-immune/results/unadjusted/H1_res.RDS") %>% arrange(Pval)
+H2_res <- readRDS("C:/Users/andre/Documents/EE/ipv-dep-stress-immune/results/unadjusted/H2_res.RDS") %>% arrange(Pval)
+H3_res <- readRDS("C:/Users/andre/Documents/EE/ipv-dep-stress-immune/results/unadjusted/H3_res.RDS") %>% arrange(Pval)
+
+knitr::kable(H1_res)
+knitr::kable(H2_res)
+knitr::kable(H3_res)
+
+```
+
+
+
+
