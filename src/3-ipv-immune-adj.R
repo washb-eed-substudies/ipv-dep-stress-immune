@@ -135,7 +135,7 @@ for(i in 1:nrow(H1_models)){
   res <- data.frame(X=H1_models$X[i], Y=H1_models$Y[i])
   simul_plot <- gam_simul_CI(H1_models$fit[i][[1]], H1_models$dat[i][[1]], xlab=res$X, ylab=res$Y, title="")
   H1_plot_list[[i]] <-  simul_plot$p
-  H1_plot_data <-  rbind(H1_plot_data, data.frame(Xvar=res$X, Yvar=res$Y, adj=0, simul_plot$pred))
+  H1_plot_data <-  bind_rows(H1_plot_data, data.frame(Xvar=res$X, Yvar=res$Y, adj=0, simul_plot$pred))
 }
 
 
@@ -143,6 +143,7 @@ for(i in 1:nrow(H1_models)){
 saveRDS(H1_models, here("models/H1_adj_models.RDS"))
 
 #Save results
+H1_res <- H1_res %>% mutate(corrected.Pval=p.adjust(Pval, method="BH"))
 saveRDS(H1_res, here("results/H1_adj_res.RDS"))
 
 
@@ -187,7 +188,7 @@ for(i in 1:nrow(H2_models)){
   res <- data.frame(X=H2_models$X[i], Y=H2_models$Y[i])
   simul_plot <- gam_simul_CI(H2_models$fit[i][[1]], H2_models$dat[i][[1]], xlab=res$X, ylab=res$Y, title="")
   H2_plot_list[[i]] <-  simul_plot$p
-  H2_plot_data <-  rbind(H2_plot_data, data.frame(Xvar=res$X, Yvar=res$Y, adj=0, simul_plot$pred))
+  H2_plot_data <-  bind_rows(H2_plot_data, data.frame(Xvar=res$X, Yvar=res$Y, adj=0, simul_plot$pred))
 }
 
 
@@ -195,6 +196,7 @@ for(i in 1:nrow(H2_models)){
 saveRDS(H2_models, here("models/H2_adj_models.RDS"))
 
 #Save results
+H2_res <- H2_res %>% mutate(corrected.Pval=p.adjust(Pval, method="BH"))
 saveRDS(H2_res, here("results/H2_adj_res.RDS"))
 
 
@@ -255,7 +257,7 @@ for(i in 1:nrow(H3_models)){
   res <- data.frame(X=H3_models$X[i], Y=H3_models$Y[i])
   simul_plot <- gam_simul_CI(H3_models$fit[i][[1]], H3_models$dat[i][[1]], xlab=res$X, ylab=res$Y, title="")
   H3_plot_list[[i]] <-  simul_plot$p
-  H3_plot_data <-  rbind(H3_plot_data, data.frame(Xvar=res$X, Yvar=res$Y, adj=0, simul_plot$pred))
+  H3_plot_data <-  bind_rows(H3_plot_data, data.frame(Xvar=res$X, Yvar=res$Y, adj=0, simul_plot$pred))
 }
 
 
@@ -263,6 +265,7 @@ for(i in 1:nrow(H3_models)){
 saveRDS(H3_models, here("models/H3_adj_models.RDS"))
 
 #Save results
+H3_res <- H3_res %>% mutate(corrected.Pval=p.adjust(Pval, method="BH"))
 saveRDS(H3_res, here("results/H3_adj_res.RDS"))
 
 

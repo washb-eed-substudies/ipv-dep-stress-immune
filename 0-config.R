@@ -17,6 +17,7 @@ library(devtools)
 library(kableExtra)
 library(here)
 library(washbgam)
+library(flextable)
 
 dropboxDir <- NULL
 if(dir.exists("C:/Users/andre/Dropbox/WASHB-EE-analysis/WBB-EE-analysis/")){ 
