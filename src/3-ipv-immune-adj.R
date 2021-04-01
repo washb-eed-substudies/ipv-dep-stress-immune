@@ -4,7 +4,7 @@ source(here::here("0-config.R"))
 #devtools::install_github("washb-eed-substudies/washbgam")
 #source(here::here("src/0-gam-functions.R"))
 
-d <- read.csv(paste0(dropboxDir,"Data/Cleaned/Audrie/bangladesh-dm-ee-ipv-cesd-pss-covariates-immunelab.csv"))
+d <- readRDS(paste0(dropboxDir,"Data/Cleaned/Audrie/ipv-immune-analysis-dataset.RDS"))
 colnames(d)
 
 #merge in HH wealth
@@ -84,12 +84,13 @@ Yvars <- c("t2_ratio_th1_th2","t3_ratio_th1_th2",
            "t2_ratio_th1_th17","t3_ratio_th1_th17", "t2_ratio_th1_il10","t3_ratio_th1_il10",
            "t2_ratio_th2_il10","t3_ratio_th2_il10", "t2_ratio_th17_il10","t3_ratio_th17_il10",
            "t2_ratio_gmc_il10","t3_ratio_gmc_il10", "t2_ratio_il12_il10","t3_ratio_il12_il10",
-           "igf_t2","igf_t3","crp_t2","crp_t3","agp_t2","agp_t3","ifng_t2","ifng_t3")
+           "igf_t2","igf_t3","crp_t2","crp_t3","agp_t2","agp_t3","ifng_t2","ifng_t3", "sumscore_t2_Z")
 Yvars_t3 <- c("t3_ratio_th1_th2",
               "t3_ratio_th1_th17","t3_ratio_th1_il10",
               "t3_ratio_th2_il10", "t3_ratio_th17_il10",
               "t3_ratio_gmc_il10", "t3_ratio_il12_il10",
-              "igf_t3","crp_t3","agp_t3","ifng_t3")
+              "igf_t3","crp_t3","agp_t3","ifng_t3", "sumscore_t3_Z")
+
 
 #Fit models
 H1_models <- NULL
