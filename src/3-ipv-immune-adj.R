@@ -8,10 +8,10 @@ d <- readRDS(paste0(dropboxDir,"Data/Cleaned/Audrie/ipv-immune-analysis-dataset.
 colnames(d)
 
 #merge in HH wealth
-wealth <- read.csv(paste0(dropboxDir,"Data/Cleaned/Caitlin/real_ids_hhwealth_quart.csv"))
+wealth <- read.csv(paste0(dropboxDir,"Data/Cleaned/Audrie/hhwealth.csv"))
 colnames(wealth)
 
-d <- left_join(d, wealth, by = c("dataid", "clusterid",  "block"))
+d <- left_join(d, wealth, by = c("dataid"))
 table(is.na(d$HHwealth))
 
 #---------------------------------------------------------------
@@ -61,7 +61,9 @@ Wvars_t3_outcomes = list(
   pss_sum_mom_t3 = c(Wvars, "ageday_bt3","month_bt3", "mhle_month_t3"),
   pss_sum_dad_t3 = c(Wvars, "ageday_bt3","month_bt3", "pss_dad_month_t3"),
   cesd_sum_ee_t3 = c(Wvars, "ageday_bt3","month_bt3", "mhle_month_t3"),
-  cesd_sum_t2 = c(Wvars, "ageday_bt3",	"cesd_month_t2",	"month_bt3")
+  cesd_sum_ee_t3_binary = c(Wvars, "ageday_bt3","month_bt3", "mhle_month_t3"),
+  cesd_sum_t2 = c(Wvars, "ageday_bt3",	"cesd_month_t2",	"month_bt3"),
+  cesd_sum_t2_binary = c(Wvars, "ageday_bt3",	"cesd_month_t2",	"month_bt3")
 )
 
 
@@ -84,12 +86,12 @@ Yvars <- c("t2_ratio_th1_th2","t3_ratio_th1_th2",
            "t2_ratio_th1_th17","t3_ratio_th1_th17", "t2_ratio_th1_il10","t3_ratio_th1_il10",
            "t2_ratio_th2_il10","t3_ratio_th2_il10", "t2_ratio_th17_il10","t3_ratio_th17_il10",
            "t2_ratio_gmc_il10","t3_ratio_gmc_il10", "t2_ratio_il12_il10","t3_ratio_il12_il10",
-           "igf_t2","igf_t3","crp_t2","crp_t3","agp_t2","agp_t3","ifng_t2","ifng_t3", "sumscore_t2_Z")
+           "t2_ln_igf","t3_ln_igf","t2_ln_crp","t3_ln_crp","t2_ln_agp","t3_ln_agp","t2_ln_ifn","t3_ln_ifn", "sumscore_t2_Z")
 Yvars_t3 <- c("t3_ratio_th1_th2",
               "t3_ratio_th1_th17","t3_ratio_th1_il10",
               "t3_ratio_th2_il10", "t3_ratio_th17_il10",
               "t3_ratio_gmc_il10", "t3_ratio_il12_il10",
-              "igf_t3","crp_t3","agp_t3","ifng_t3", "sumscore_t3_Z")
+              "t3_ln_igf","t3_ln_crp","t3_ln_agp","t3_ln_ifn", "sumscore_t3_Z")
 
 
 #Fit models
@@ -209,8 +211,8 @@ saveRDS(H2_plot_data, here("figure-data/H2_adj_spline_data.RDS"))
 #### Hypothesis 3: 
 # 3.	Maternal depressive symptoms, measured on a continuous scale at Years 1 and 2, is associated with child systemic inflammation at Years 1 and 2 (defined as higher concentrations of pro-inflammatory factors and/or lower concentrations of anti-inflammatory/immuno-regulatory factors). 
 # Exposures: Maternal Center for Epidemiologic Studies (CES-D) Scale score at Years 1 and 2
-Xvars_t2 <- c("cesd_sum_t2")
-Xvars_t3 <- c("cesd_sum_ee_t3")
+Xvars_t2 <- c("cesd_sum_t2", "cesd_sum_t2_binary")
+Xvars_t3 <- c("cesd_sum_ee_t3", "cesd_sum_ee_t3_binary")
 # Outcomes: Child sum score of systemic inflammation, Th1/Th2, Th1/Th17, Th1/IL-10, Th2/IL-10, Th17/IL-10, GM-CSF/IL-10, and IL-2/IL-10 cytokine ratios, IGF-1, CRP, and AGP at Years 1 and 2.
 
 #Fit models
@@ -244,7 +246,9 @@ for(i in Xvars_t3){
 H3_res <- NULL
 for(i in 1:nrow(H3_models)){
   res <- data.frame(X=H3_models$X[i], Y=H3_models$Y[i])
-  preds <- predict_gam_diff(fit=H3_models$fit[i][[1]], d=H3_models$dat[i][[1]], quantile_diff=c(0.25,0.75), Xvar=res$X, Yvar=res$Y)
+  if (grepl("binary", H3_models$X[i])){bin = TRUE}
+  else {bin=FALSE}
+  preds <- predict_gam_diff(fit=H3_models$fit[i][[1]], d=H3_models$dat[i][[1]], quantile_diff=c(0.25,0.75), Xvar=res$X, Yvar=res$Y, binaryX = bin)
   H3_res <-  bind_rows(H3_res , preds$res)
 }
 
