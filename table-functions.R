@@ -33,11 +33,11 @@ growth_tbl <- function(name, expo_var, out_var, exposure, outcome, results, resu
         }
         if(j==1|skipped==T){
           tbl <- rbind(tbl, list(expo_var[i], out_var[j], filtered_adj$N, round(filtered_adj$q1, 2), round(filtered_adj$q3, 2), 
-                                 round(filtered_adj$pred.q1, 2), round(filtered_adj$pred.q3, 2), adj, round(filtered_adj$Pval, 2), round(filtered_adj$BH.Pval, 2)))
+                                 round(filtered_adj$pred.q1, 2), round(filtered_adj$pred.q3, 2), adj, round(filtered_adj$Pval, 2), round(filtered_adj$corrected.Pval, 2)))
           skipped<-F
         }else {
           tbl <- rbind(tbl, list("", out_var[j],  filtered_adj$N, round(filtered_adj$q1, 2), round(filtered_adj$q3, 2), 
-                                 round(filtered_adj$pred.q1, 2), round(filtered_adj$pred.q3, 2), adj, round(filtered_adj$Pval, 2), round(filtered_adj$BH.Pval, 2)))
+                                 round(filtered_adj$pred.q1, 2), round(filtered_adj$pred.q3, 2), adj, round(filtered_adj$Pval, 2), round(filtered_adj$corrected.Pval, 2)))
         }
       }
       if (i != length(exposure)) {
@@ -67,13 +67,13 @@ growth_tbl <- function(name, expo_var, out_var, exposure, outcome, results, resu
         }
         if(j==1|skipped==T){
           tbl <- rbind(tbl, list(expo_var[i], out_var[j], filtered_res$N, round(filtered_res$q1, 2), round(filtered_res$q3, 2), 
-                                 round(filtered_res$pred.q1, 2), round(filtered_res$pred.q3, 2), unadj, round(filtered_res$Pval, 2), round(filtered_res$BH.Pval, 2), 
-                                 round(filtered_adj$pred.q1, 2), round(filtered_adj$pred.q3, 2), adj, round(filtered_adj$Pval, 2), round(filtered_adj$BH.Pval, 2)))
+                                 round(filtered_res$pred.q1, 2), round(filtered_res$pred.q3, 2), unadj, round(filtered_res$Pval, 2), round(filtered_res$corrected.Pval, 2), 
+                                 round(filtered_adj$pred.q1, 2), round(filtered_adj$pred.q3, 2), adj, round(filtered_adj$Pval, 2), round(filtered_adj$corrected.Pval, 2)))
           skipped<-F
         }else {
           tbl <- rbind(tbl, list("", out_var[j],  filtered_res$N, round(filtered_res$q1, 2), round(filtered_res$q3, 2), 
-                                 round(filtered_res$pred.q1, 2), round(filtered_res$pred.q3, 2), unadj, round(filtered_res$Pval, 2), round(filtered_res$BH.Pval, 2), 
-                                 round(filtered_adj$pred.q1, 2), round(filtered_adj$pred.q3, 2), adj, round(filtered_adj$Pval, 2), round(filtered_adj$BH.Pval, 2)))
+                                 round(filtered_res$pred.q1, 2), round(filtered_res$pred.q3, 2), unadj, round(filtered_res$Pval, 2), round(filtered_res$corrected.Pval, 2), 
+                                 round(filtered_adj$pred.q1, 2), round(filtered_adj$pred.q3, 2), adj, round(filtered_adj$Pval, 2), round(filtered_adj$corrected.Pval, 2)))
         }
       }
       if (i != length(exposure)) {
@@ -113,11 +113,11 @@ growth_tbl_flex <- function(name, expo_var, out_var, exposure, outcome, results,
         }
         if(j==1|skipped==T){
           tbl <- rbind(tbl, list(expo_var[i], out_var[j],  filtered_adj$N, round(filtered_adj$q1, 2), round(filtered_adj$q3, 2), 
-                                 round(filtered_adj$pred.q1, 2), round(filtered_adj$pred.q3, 2), adj, round(filtered_adj$Pval, 2), round(filtered_adj$BH.Pval, 2)))
+                                 round(filtered_adj$pred.q1, 2), round(filtered_adj$pred.q3, 2), adj, round(filtered_adj$Pval, 2), round(filtered_adj$corrected.Pval, 2)))
           skipped=F
         }else {
           tbl <- rbind(tbl, list(" ", out_var[j],  filtered_adj$N, round(filtered_adj$q1, 2), round(filtered_adj$q3, 2), 
-                                 round(filtered_adj$pred.q1, 2), round(filtered_adj$pred.q3, 2), adj, round(filtered_adj$Pval, 2), round(filtered_adj$BH.Pval, 2)))
+                                 round(filtered_adj$pred.q1, 2), round(filtered_adj$pred.q3, 2), adj, round(filtered_adj$Pval, 2), round(filtered_adj$corrected.Pval, 2)))
         }
       }
       if (i != length(exposure)) {
@@ -149,13 +149,13 @@ growth_tbl_flex <- function(name, expo_var, out_var, exposure, outcome, results,
         }
         if(j==1|skipped==T){
           tbl <- rbind(tbl, list(expo_var[i], out_var[j],  filtered_res$N, round(filtered_res$q1, 2), round(filtered_res$q3, 2), 
-                               round(filtered_res$pred.q1, 2), round(filtered_res$pred.q3, 2), unadj, round(filtered_res$Pval, 2), round(filtered_res$BH.Pval, 2), 
-                               round(filtered_adj$pred.q1, 2), round(filtered_adj$pred.q3, 2), adj, round(filtered_adj$Pval, 2), round(filtered_adj$BH.Pval, 2)))
+                               round(filtered_res$pred.q1, 2), round(filtered_res$pred.q3, 2), unadj, round(filtered_res$Pval, 2), round(filtered_res$corrected.Pval, 2), 
+                               round(filtered_adj$pred.q1, 2), round(filtered_adj$pred.q3, 2), adj, round(filtered_adj$Pval, 2), round(filtered_adj$corrected.Pval, 2)))
           skipped=F
         }else {
           tbl <- rbind(tbl, list(" ", out_var[j],  filtered_res$N, round(filtered_res$q1, 2), round(filtered_res$q3, 2), 
-                               round(filtered_res$pred.q1, 2), round(filtered_res$pred.q3, 2), unadj, round(filtered_res$Pval, 2), round(filtered_res$BH.Pval, 2), 
-                               round(filtered_adj$pred.q1, 2), round(filtered_adj$pred.q3, 2), adj, round(filtered_adj$Pval, 2), round(filtered_adj$BH.Pval, 2)))
+                               round(filtered_res$pred.q1, 2), round(filtered_res$pred.q3, 2), unadj, round(filtered_res$Pval, 2), round(filtered_res$corrected.Pval, 2), 
+                               round(filtered_adj$pred.q1, 2), round(filtered_adj$pred.q3, 2), adj, round(filtered_adj$Pval, 2), round(filtered_adj$corrected.Pval, 2)))
         }
       }
       if (i != length(exposure)) {
