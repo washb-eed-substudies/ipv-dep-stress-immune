@@ -86,7 +86,7 @@ Yvars <- c("t2_ratio_th1_th2","t3_ratio_th1_th2",
            "t2_ratio_th1_th17","t3_ratio_th1_th17", "t2_ratio_th1_il10","t3_ratio_th1_il10",
            "t2_ratio_th2_il10","t3_ratio_th2_il10", "t2_ratio_th17_il10","t3_ratio_th17_il10",
            "t2_ratio_gmc_il10","t3_ratio_gmc_il10", "t2_ratio_il2_il10","t3_ratio_il2_il10",
-           "t2_ln_igf","t3_ln_igf","t2_ln_crp","t3_ln_crp","t2_ln_agp","t3_ln_agp","t2_ln_ifn","t3_ln_ifn", "sumscore_t2_Z")
+           "t2_ln_igf","t3_ln_igf","t2_ln_crp","t3_ln_crp","t2_ln_agp","t3_ln_agp","t2_ln_ifn","t3_ln_ifn", "sumscore_t2_Z", "sumscore_t3_Z")
 Yvars_t3 <- c("t3_ratio_th1_th2",
               "t3_ratio_th1_th17","t3_ratio_th1_il10",
               "t3_ratio_th2_il10", "t3_ratio_th17_il10",
