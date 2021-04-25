@@ -73,9 +73,9 @@ out_var <- c("Sum score of inflammation Year 1", "Ln Th1/Th2 Year 1", "Ln Th1/Th
 
 exp_name <- "Maternal Exposure to IPV"
 tbl2 <- growth_tbl(exp_name, expo_var, out_var, exposure, outcome, H1, H1adj, T)
-tbl2flex <- growth_tbl_flex(exp_name, expo_var, out_var, exposure, outcome, H1, H1adj, T)
-tbl1supp <- growth_tbl(exp_name, expo_var, out_var, exposure, outcome, H1, H1adj,)
-tbl1flexsupp <- growth_tbl_flex(exp_name, expo_var, out_var, exposure, outcome, H1, H1adj,)
+tbl2flex <- growth_tbl_flex(exp_name, expo_var, out_var, exposure, outcome, H1, H1adj, T, 1.3, 1.3)
+tbl1supp <- growth_tbl(exp_name, expo_var, out_var, exposure, outcome, H1, H1adj)
+tbl1flexsupp <- growth_tbl_flex(exp_name, expo_var, out_var, exposure, outcome, H1, H1adj)
 
 
 #### Table 3 ####
@@ -89,7 +89,7 @@ out_var <- c("Sum score of inflammation Year 2", "Ln Th1/Th2 Year 2", "Ln Th1/Th
 
 exp_name <- "Parental Stress"
 tbl3 <- growth_tbl(exp_name, expo_var, out_var, exposure, outcome, H2, H2adj, T)
-tbl3flex <- growth_tbl_flex(exp_name, expo_var, out_var, exposure, outcome, H2, H2adj, T)
+tbl3flex <- growth_tbl_flex(exp_name, expo_var, out_var, exposure, outcome, H2, H2adj, T, 1, 1.3)
 tbl2supp <- growth_tbl(exp_name, expo_var, out_var, exposure, outcome, H2, H2adj)
 tbl2flexsupp <- growth_tbl_flex(exp_name, expo_var, out_var, exposure, outcome, H2, H2adj)
 
@@ -109,7 +109,7 @@ out_var <- c("Sum score of inflammation Year 1", "Ln Th1/Th2 Year 1", "Ln Th1/Th
 
 exp_name <- "CES-D Year 1"
 tbl4 <- growth_tbl(exp_name, expo_var, out_var, exposure, outcome, H3, H3adj, T)
-tbl4flex <- growth_tbl_flex(exp_name, expo_var, out_var, exposure, outcome, H3, H3adj, T)
+tbl4flex <- growth_tbl_flex(exp_name, expo_var, out_var, exposure, outcome, H3, H3adj, T, 1.3, 1.3)
 tbl3supp <- growth_tbl(exp_name, expo_var, out_var, exposure, outcome, H3, H3adj)
 tbl3flexsupp <- growth_tbl_flex(exp_name, expo_var, out_var, exposure, outcome, H3, H3adj)
 
@@ -124,7 +124,7 @@ out_var <- c("Sum score of inflammation Year 2", "Ln Th1/Th2 Year 2", "Ln Th1/Th
 
 exp_name <- "CES-D Year 2"
 tbl5 <- growth_tbl(exp_name, expo_var, out_var, exposure, outcome, H3, H3adj, T)
-tbl5flex <- growth_tbl_flex(exp_name, expo_var, out_var, exposure, outcome, H3, H3adj, T)
+tbl5flex <- growth_tbl_flex(exp_name, expo_var, out_var, exposure, outcome, H3, H3adj, T, 1.3, 1.3)
 tbl4supp <- growth_tbl(exp_name, expo_var, out_var, exposure, outcome, H3, H3adj)
 tbl4flexsupp <- growth_tbl_flex(exp_name, expo_var, out_var, exposure, outcome, H3, H3adj)
 
@@ -145,7 +145,8 @@ save_as_docx("Table 1: Association between Exposure to IPV and Child Immune Stat
              "Table 2: Association between Parental Stress and Child Immune Status" = tbl3flex, 
              "Table 3: Association between CES-D Scores at Year 1 and Child Immune Status" = tbl4flex, 
              "Table 4: Association between CES-D Scores at Year 2 and Child Immune Status" = tbl5flex, 
-             path=here('C:/Users/Sophia/Documents/WASH/WASH IPV and Immune/ipv-immune main.docx'))
+             path='C:/Users/Sophia/Documents/WASH/WASH IPV and Immune/ipv-immune main.docx', 
+             pr_section = sect_properties)
 
 save_as_docx("Table S1: Association between Exposure to IPV and Child Immune Status" = tbl1flexsupp, 
              "Table S2: Association between Parental Stress and Child Immune Status" = tbl2flexsupp, 
