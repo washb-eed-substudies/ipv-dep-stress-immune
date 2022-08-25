@@ -127,6 +127,7 @@ saveRDS(posthoc_models, here("models/posthoc_adj_models.RDS"))
 
 #Save results
 saveRDS(posthoc_res, here("results/posthoc_adj_res.RDS"))
+write.csv(posthoc_res, here("results/posthoc_adj_res.csv"))
 
 #Save plot data
 saveRDS(posthoc_plot_data, here("figure-data/posthoc_adj_spline_data.RDS"))
