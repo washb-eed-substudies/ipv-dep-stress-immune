@@ -14,6 +14,21 @@ colnames(wealth)
 d <- left_join(d, wealth, by = c("dataid"))
 table(is.na(d$HHwealth))
 
+# table(d$cesd_sum_t2, d$cesd_sum_t2_binary)
+# table(d$cesd_sum_ee_t3, d$cesd_sum_ee_t3_binary)
+# 
+# colnames(d)
+# ggplot(d, aes(x=t2_ratio_th1_th17, y=sumscore_t2_Z)) + geom_point() + geom_smooth() + facet_wrap(~cesd_sum_t2_binary)
+# 
+# ggplot(d, aes(x=cesd_sum_t2, y=t2_ratio_th1_th17)) + geom_point() + geom_smooth()
+# ggplot(d, aes(x=cesd_sum_t2, y=sumscore_t2_Z)) + geom_point() + geom_smooth()
+# 
+# ggplot(d, aes(x=cesd_sum_t2, y=t2_ratio_th1_th17))  + geom_smooth()
+# ggplot(d, aes(x=cesd_sum_t2, y=sumscore_t2_Z))  + geom_smooth()
+
+#sum score year 2, binary
+#TH1/TH17 continuous
+
 #---------------------------------------------------------------
 # set covariates
 #---------------------------------------------------------------
@@ -215,6 +230,16 @@ Xvars_t2 <- c("cesd_sum_t2", "cesd_sum_t2_binary")
 Xvars_t3 <- c("cesd_sum_ee_t3", "cesd_sum_ee_t3_binary")
 # Outcomes: Child sum score of systemic inflammation, Th1/Th2, Th1/Th17, Th1/IL-10, Th2/IL-10, Th17/IL-10, GM-CSF/IL-10, and IL-2/IL-10 cytokine ratios, IGF-1, CRP, and AGP at Years 1 and 2.
 
+res_adj <- fit_RE_gam(d=d, X="cesd_sum_t2_binary", Y="sumscore_t3_Z",  W=Wvars_t3_outcomes[["cesd_sum_t2_binary"]])
+res <- data.frame(X="cesd_sum_t2_binary", Y="sumscore_t3_Z", fit=I(list(res_adj$fit)), dat=I(list(res_adj$dat)))
+preds <- predict_gam_diff(fit=res$fit[[1]], d=res$dat[[1]], quantile_diff=c(0.25,0.75), Xvar=res$X, Yvar=res$Y, binaryX = T)
+preds$res
+simul_plot <- gam_simul_CI(res$fit[[1]], res$dat[[1]], xlab=res$X, ylab=res$Y, title="")
+simul_plot$p
+df <- d %>% select("cesd_sum_t2_binary", "sumscore_t3_Z", Wvars_t3_outcomes[["cesd_sum_t2_binary"]])
+fit <- lm(sumscore_t3_Z~., data = df)
+summary(fit)
+
 #Fit models
 H3_models <- NULL
 for(i in Xvars_t2){
@@ -262,6 +287,35 @@ for(i in 1:nrow(H3_models)){
   H3_plot_data <-  bind_rows(H3_plot_data, data.frame(Xvar=res$X, Yvar=res$Y, adj=0, simul_plot$pred))
 }
 
+=H3_models$X
+
+H3_plot_list
+
+#cesd_sum_t2  t2_ratio_th1_th17
+H3_plot_list[[3]] + geom_vline(xintercept = 6) + geom_vline(xintercept =   16)
+# cesd_sum_t2_binary      sumscore_t2_Z
+H3_plot_list[[48]]
+
+res_unadj <- fit_RE_gam(d=d, X="cesd_sum_t2", Y="t2_ratio_th1_th17",  W=NULL)
+preds_unadj <- predict_gam_diff(fit=res_unadj$fit, d=res_unadj$dat, quantile_diff=c(0.25,0.75), Xvar="cesd_sum_t2", Yvar="t2_ratio_th1_th17", binaryX = F)
+preds_unadj$res
+simul_plot_unadj <- gam_simul_CI(res_unadj$fit, res_unadj$dat, xlab="", ylab="", title="unadj")
+simul_plot_unadj$p
+
+res_adj <- fit_RE_gam(d=d, X="cesd_sum_t2", Y="t2_ratio_th1_th17",  W=Wvars_t2_outcomes$cesd_sum_t2)
+preds <- predict_gam_diff(fit=res_adj$fit, d=res_adj$dat, quantile_diff=c(0.25,0.75), Xvar="cesd_sum_t2", Yvar="t2_ratio_th1_th17", binaryX = F)
+preds$res
+preds2 <- predict_gam_diff(fit=res_adj$fit, d=res_adj$dat, quantile_diff=c(0.15,0.85), Xvar="cesd_sum_t2", Yvar="t2_ratio_th1_th17", binaryX = F)
+preds2$res
+
+
+
+summary(res_adj$fit)
+res <- glm(t2_ratio_th1_th17 ~ cesd_sum_t2 + momage + Nlt18 +  walls + HHwealth + month_bt2, data=d)
+summary(res)
+
+
+H3_res[H3_res$Pval<0.05,]
 
 #Save models
 saveRDS(H3_models, here("models/H3_adj_models.RDS"))
