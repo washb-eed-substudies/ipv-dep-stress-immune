@@ -1,6 +1,9 @@
 rm(list=ls())
-
+source(here::here("0-config.R"))
 library(tibble)
+library(ggplot2)
+library(dplyr)
+
 data <- tibble(x = -10:100, y= -10:100)
 head(data)
 
@@ -154,4 +157,4 @@ p <- p +
   annotate("text", x= 50, y=-10,label= "*This substudy did not assess stress measures in the Nutrition and the Water, Sanitation, and Handwashing arms at Year 1", size=3)
 
 # YOU MAY NEED TO CHANGE THE FILE PATHS HERE
-ggsave(p, file = here("~/WASH Benefits/ipv-dep-stress-immune/Figures/enrollment_figure1.jpg"), height=14, width=9)
+ggsave(p, file = here("~/WASH Benefits/ipv-dep-stress-immune/figures/enrollment_figure.jpg"), height=14, width=9)

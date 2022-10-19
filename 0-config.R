@@ -9,14 +9,14 @@
 
 library(tidyverse)
 library(haven)
-library(washb)
+#library(washb)
 library(tmle)
 library(foreign)
 library(data.table)
 library(devtools)
 library(kableExtra)
 library(here)
-library(washbgam)
+#library(washbgam)
 library(flextable)
 
 dropboxDir <- NULL
