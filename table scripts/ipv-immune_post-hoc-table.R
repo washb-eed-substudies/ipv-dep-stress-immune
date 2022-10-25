@@ -8,6 +8,8 @@ source(here::here("0-config.R"))
 
 # load enrollment characteristics and results
 # d <- readRDS("/Users/gabby/Documents/WASH Benefits/bangladesh-cleaned-master-data.RDS")
+#Andrew file path
+try(H1ph <- readRDS(paste0(here(),"/results/post-hoc/posthoc_adj_res.RDS")))
 H1ph <- readRDS(here("~/WASH Benefits/ipv-dep-stress-immune/results/post-hoc/posthoc_adj_res.RDS"))
 
 #### MAIN TABLES ####
@@ -20,12 +22,13 @@ expo_var <- c("Exposure to IPV during pregnancy", "CES-D Score Year 1" )
 out_var <- c("Th1 Year 1", "Th17 Year 1", "Ln IL-12 Year 1", "Ln IL-21 Year 1", "Ln IL-17 Year 1", "Ln IFN-y Year 1", "Th1 Year 2", "Th17 Year 2", "Ln IL-12 Year 2", "Ln IL-21 Year 2", "Ln IL-17 Year 2", "Ln IFN-y Year 2" )
 results_adj <- H1ph
 
-tbl1 <- growth_tbl("Post Hoc Analysis", expo_var, out_var, exposure, outcome, H1ph, T)
-tbl1flex <- growth_tbl_flex("Post Hoc Analysis", expo_var, out_var, exposure, outcome, H1ph, T)
+tbl1 <- growth_tbl(name="Post Hoc Analysis", expo_var=expo_var, out_var=out_var, exposure=exposure, outcome=outcome, results_adj=H1ph, adj_only=T)
+tbl1flex <- growth_tbl_flex(name="Post Hoc Analysis", expo_var=expo_var, out_var=out_var, exposure=exposure, outcome=outcome, results_adj=H1ph, adj_only=T)
 
 #### SAVE TABLES ####
 
 write.csv(tbl1, here('tables/post hoc/ipv-dep-immune_post-hoc-table1.csv'))
 
 save_as_docx("Table 1" = tbl1flex, path='~/WASH Benefits/ipv-dep-stress-immune/tables/post hoc/ipv-dep-immune_post-hoc-table1.docx')
-
+#Andrew file path
+#try(save_as_docx("Table 1" = tbl1flex, path=paste0(here(),"/tables/post-hoc/ipv-dep-immune_post-hoc-table1.docx")))
