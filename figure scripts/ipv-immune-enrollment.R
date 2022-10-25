@@ -9,9 +9,9 @@ head(data)
 
 d <- readRDS("/Users/gabby/Downloads/bangladesh-cleaned-master-data.RDS")
 exposures_y1 <- c("life_viol_any_t3", "cesd_sum_t2", "cesd_sum_t2_binary")
-outcomes_y1 <- c("t2_ln_crp", "t2_ln_agp", "t2_ln_ifn", "sumscore_t2_Z","t2_ln_igf")
+outcomes_y1 <- c("t2_ln_crp", "t2_ln_agp", "t2_ln_ifn", "sumscore_t2_Z","t2_ln_igf", "t2_ratio_gmc_il10", "t2_ratio_il2_il10", "t2_ratio_th1_il10","t2_ratio_th2_il10","t2_ratio_th17_il10", "t2_ratio_th1_th2", "t2_ratio_th1_th17")
 exposures_y2 <- c("pss_sum_mom_t3", "pss_sum_dad_t3", "cesd_sum_ee_t3", "cesd_sum_ee_t3_binary")
-outcomes_y2 <- c("t3_ln_crp", "t3_ln_agp", "t3_ln_ifn","sumscore_t3_Z","t3_ln_igf")
+outcomes_y2 <- c("t3_ln_crp", "t3_ln_agp", "t3_ln_ifn","sumscore_t3_Z","t3_ln_igf", "t3_ratio_gmc_il10", "t3_ratio_il2_il10", "t3_ratio_th1_il10", "t3_ratio_th2_il10", "t3_ratio_th17_il10", "t3_ratio_th1_th2", "t3_ratio_th1_th17")
 
 #function for filtering for only participants with at least one outcome
 filtering <- function(row){
