@@ -16,10 +16,10 @@ H1ph <- readRDS(here("~/WASH Benefits/ipv-dep-stress-immune/results/post-hoc/pos
 #### Table 1 ####
 # Post Hoc Analysis
 
-exposure <- c("viol_any_preg", "cesd_sum_t2")
-outcome <- c("th1_z_t2", "th17_z_t2", "t2_ln_il12", "t2_ln_il21", "t2_ln_il17", "t2_ln_ifn", "th1_z_t3", "th17_z_t3", "t3_ln_il12", "t3_ln_il21", "t3_ln_il17", "t3_ln_ifn" )
+exposure <- c("viol_any_preg", "cesd_sum_t2", "cesd_sum_t2_binary")
+outcome <- c("th1_z_t2", "th2_z_t2", "th17_z_t2", "t2_ln_il12", "t2_ln_ifn", "t2_ln_il4", "t2_ln_il5", "t2_ln_il13", "t2_ln_il21", "t2_ln_il17",  "th1_z_t3", "th2_z_t3", "th17_z_t3", "t3_ln_il12", "t3_ln_ifn", "t3_ln_il4", "t3_ln_il5", "t3_ln_il13", "t3_ln_il21", "t3_ln_il17")
 expo_var <- c("Exposure to IPV during pregnancy", "CES-D Score Year 1" )
-out_var <- c("Th1 Year 1", "Th17 Year 1", "Ln IL-12 Year 1", "Ln IL-21 Year 1", "Ln IL-17 Year 1", "Ln IFN-y Year 1", "Th1 Year 2", "Th17 Year 2", "Ln IL-12 Year 2", "Ln IL-21 Year 2", "Ln IL-17 Year 2", "Ln IFN-y Year 2" )
+out_var <- c("Th1 Year 1", "Th2 Year 2", "Th17 Year 1", "Ln IL-12 Year 1", "Ln IFN-y Year 1", "Ln IL-4 Year 1", "Ln IL-5 Year 1", "Ln IL-13 Year 1", "Ln IL-21 Year 1", "Ln IL-17 Year 1", "Th1 Year 2", "Th2 Year 2", "Th17 Year 2", "Ln IL-12 Year 2", "Ln IFN-y Year 2", "Ln IL-4 Year 2", "Ln IL-5 Year 2", "Ln IL-13 Year 2", "Ln IL-21 Year 2", "Ln IL-17 Year 2")
 results_adj <- H1ph
 
 tbl1 <- growth_tbl(name="Post Hoc Analysis", expo_var=expo_var, out_var=out_var, exposure=exposure, outcome=outcome, results_adj=H1ph, adj_only=T)
