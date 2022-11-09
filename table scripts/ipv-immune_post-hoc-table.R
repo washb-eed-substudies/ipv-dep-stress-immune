@@ -4,13 +4,15 @@ library('flextable')
 library('officer')
 library('here')
 source(here("~/WASH Benefits/ipv-dep-stress-immune/table-functions.R")) 
+try(source(here("table-functions.R")) )
 source(here::here("0-config.R"))
 
 # load enrollment characteristics and results
 # d <- readRDS("/Users/gabby/Documents/WASH Benefits/bangladesh-cleaned-master-data.RDS")
 #Andrew file path
 try(H1ph <- readRDS(paste0(here(),"/results/post-hoc/posthoc_adj_res.RDS")))
-H1ph <- readRDS(here("~/WASH Benefits/ipv-dep-stress-immune/results/post-hoc/posthoc_adj_res.RDS"))
+try(H1ph <- readRDS(here("~/WASH Benefits/ipv-dep-stress-immune/results/post-hoc/posthoc_adj_res.RDS")))
+
 
 #### MAIN TABLES ####
 #### Table 1 ####
@@ -29,6 +31,7 @@ tbl1flex <- growth_tbl_flex(name="Post Hoc Analysis", expo_var=expo_var, out_var
 
 write.csv(tbl1, here('tables/post hoc/ipv-dep-immune_post-hoc-table1.csv'))
 
-save_as_docx("Table 1" = tbl1flex, path='~/WASH Benefits/ipv-dep-stress-immune/tables/post hoc/ipv-dep-immune_post-hoc-table1.docx')
+try(save_as_docx("Table 1" = tbl1flex, path=here('tables/post hoc/ipv-dep-immune_post-hoc-table1.docx')))
+try(save_as_docx("Table 1" = tbl1flex, path='~/WASH Benefits/ipv-dep-stress-immune/tables/post hoc/ipv-dep-immune_post-hoc-table1.docx'))
 #Andrew file path
-#try(save_as_docx("Table 1" = tbl1flex, path=paste0(here(),"/tables/post-hoc/ipv-dep-immune_post-hoc-table1.docx")))
+try(save_as_docx("Table 1" = tbl1flex, path=here('tables/post hoc/ipv-dep-immune_post-hoc-table1.docx')))

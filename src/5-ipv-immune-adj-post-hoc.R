@@ -1,6 +1,8 @@
 rm(list=ls())
 
 source(here::here("0-config.R"))
+library(washb)
+library(washbgam)
 #devtools::install_github("washb-eed-substudies/washbgam")
 #source(here::here("src/0-gam-functions.R"))
 
@@ -67,6 +69,10 @@ summary(scale(d$il12_t2)[,1] + scale(d$ifng_t2)[,1])
 d$th1_z_t2 <- scale(d$il12_t2)[,1] + scale(d$ifng_t2)[,1]
 d$th1_z_t3 <- scale(d$il12_t3)[,1] + scale(d$ifng_t3)[,1]
 
+d$th2_z_t2 <- scale(d$il4_t2)[,1] + scale(d$il5_t2)[,1] + scale(d$il13_t2)[,1]
+d$th2_z_t3 <- scale(d$il4_t3)[,1] + scale(d$il5_t3)[,1] + scale(d$il13_t3)[,1]
+
+
 # Th17 cytokines (IL-17A and IL-21) together
 d$th17_z_t2 <- scale(d$il17_t2)[,1] + scale(d$il21_t2)[,1]
 d$th17_z_t3 <- scale(d$il17_t3)[,1] + scale(d$il21_t3)[,1]
@@ -74,11 +80,16 @@ d$th17_z_t3 <- scale(d$il17_t3)[,1] + scale(d$il21_t3)[,1]
 #### Loop over exposure-outcome pairs ####
 
 
-Xvars_t2 <- c("viol_any_preg","cesd_sum_t2")            
+Xvars_t2 <- c("viol_any_preg","cesd_sum_t2","cesd_sum_t2_binary" )            
 
 # Outcomes: 
-Yvars <- c("th1_z_t2", "th17_z_t2", "t2_ln_il12", "t2_ln_il21", "t2_ln_il17", "t2_ln_ifn",
-           "th1_z_t3", "th17_z_t3", "t3_ln_il12", "t3_ln_il21", "t3_ln_il17", "t3_ln_ifn")
+# Yvars <- c("th1_z_t2", "th17_z_t2", "t2_ln_il12", "t2_ln_il21", "t2_ln_il17", "t2_ln_ifn",
+#            "th1_z_t3", "th17_z_t3", "t3_ln_il12", "t3_ln_il21", "t3_ln_il17", "t3_ln_ifn")
+Yvars <- c("th1_z_t2", "t2_ln_il12", "t2_ln_ifn", "th2_z_t2", "t2_ln_il4", "t2_ln_il5", "t2_ln_il13",
+           "th17_z_t2", "t2_ln_il17", "t2_ln_il21", "th1_z_t3", "t3_ln_il12", "t3_ln_ifn", "th2_z_t3",  
+           "t3_ln_il4", "t3_ln_il5", "t3_ln_il13", "th17_z_t3", "t3_ln_il17", "t3_ln_il21")
+#Check that Yvars are in the data
+Yvars[!(Yvars %in% colnames(d))]
 
 
 i=Xvars_t2[1]
@@ -126,8 +137,8 @@ for(i in 1:nrow(posthoc_models)){
 saveRDS(posthoc_models, here("models/posthoc_adj_models.RDS"))
 
 #Save results
-saveRDS(posthoc_res, here("results/posthoc_adj_res.RDS"))
-write.csv(posthoc_res, here("results/posthoc_adj_res.csv"))
+saveRDS(posthoc_res, here("results/post-hoc/posthoc_adj_res.RDS"))
+write.csv(posthoc_res, here("results/post-hoc/posthoc_adj_res.csv"))
 
 #Save plot data
 saveRDS(posthoc_plot_data, here("figure-data/posthoc_adj_spline_data.RDS"))
