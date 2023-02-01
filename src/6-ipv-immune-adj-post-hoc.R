@@ -122,6 +122,13 @@ for(i in 1:nrow(posthoc_models)){
   posthoc_res <-  bind_rows(posthoc_res , preds$res)
 }
 
+
+#P-value correction
+posthoc_res <- posthoc_res %>% group_by(X) %>% 
+  mutate(corrected.Pval=p.adjust(Pval, method="BH")) %>%
+  ungroup() %>%
+  as.data.frame()
+
 #Make list of plots
 posthoc_plot_list <- NULL
 posthoc_plot_data <- NULL
