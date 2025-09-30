@@ -16,7 +16,7 @@ ipv_sv <-  haven::read_dta("C:/Users/andre/Dropbox/WASHB-EE-analysis/WBB-EE-anal
 head(ipv_sv)
 labels <- sapply(ipv_sv, function(x) attr(x, "label"))
 labels <- tibble(name = names(labels),
-               label = labels)
+                 label = labels)
 labels$label<- as.character(labels$label)
 labels[grepl("ow often",labels$label),]
 
@@ -67,8 +67,8 @@ Yvars <- readRDS(paste0(dropboxDir,"Data/Cleaned/Audrie/bangladesh-immune-analys
 # sum_score_data <- read.csv(paste0(dropboxDir,"Data/Cleaned/Audrie/child immune sum scores.csv")) %>% select('childid', 'sumscore_t2_Z', 'sumscore_t3_Z')
 # Yvars <- left_join(Yvars, sum_score_data, by="childid")
 Yvars <- Yvars %>% select(childid, t2_ratio_pro_il10, t2_ratio_il2_il10, t2_ratio_gmc_il10, t2_ratio_th1_il10, t2_ratio_th2_il10,     
-                                                                   t2_ratio_th17_il10, t2_ratio_th1_th2, t2_ratio_th1_th17, t2_ln_agp, t2_ln_crp, sumscore_t2_Z, t2_ln_ifn,t3_ratio_pro_il10, t3_ratio_il2_il10, t3_ratio_gmc_il10, t3_ratio_th1_il10, t3_ratio_th2_il10,     
-                                                                   t3_ratio_th17_il10, t3_ratio_th1_th2, t3_ratio_th1_th17, t3_ln_crp, t3_ln_agp, sumscore_t3_Z, t3_ln_ifn)
+                          t2_ratio_th17_il10, t2_ratio_th1_th2, t2_ratio_th1_th17, t2_ln_agp, t2_ln_crp, sumscore_t2_Z, t2_ln_ifn,t3_ratio_pro_il10, t3_ratio_il2_il10, t3_ratio_gmc_il10, t3_ratio_th1_il10, t3_ratio_th2_il10,     
+                          t3_ratio_th17_il10, t3_ratio_th1_th2, t3_ratio_th1_th17, t3_ln_crp, t3_ln_agp, sumscore_t3_Z, t3_ln_ifn)
 dim(Yvars)
 duplicate_vars<-colnames(Yvars)[(colnames(Yvars) %in% colnames(d))]
 duplicate_vars <- duplicate_vars[duplicate_vars!="childid"]
@@ -90,6 +90,45 @@ table(dfull$ipv_life_freq)
 summary(Yvars$sumscore_t2_Z)
 summary(dfull$sumscore_t2_Z)
 
+
+
+
+
+
+#read in new datasets from Helen with updated cesd z-scores
+library(haven)
+
+cesd_midline <- read_dta(paste0(dropboxDir,"Data/Cleaned/Helen/washb-bangladesh-momdepression-year1_revised_29aug2025.dta"))
+cesd_endline <- read_dta(paste0(dropboxDir,"Data/Cleaned/Helen/washb-bangladesh-momdepression-year2_revised_29aug2025.dta"))
+
+
+summary(cesd_midline$midline_depression_cesdstyle)
+summary(cesd_midline$midline_depression_no4)
+summary(cesd_endline$endline_depress_cesdstyle)
+summary(cesd_endline$endline_depress_cesdstyle_no4)
+
+
+cesd_midline <- cesd_midline %>% select(dataid, childid, midline_depression_cesdstyle) %>% 
+  rename(cesd_sum_t2=midline_depression_cesdstyle) %>%
+  mutate(childid=as.numeric(paste0(dataid,gsub("T", "", childid))), 
+         dataid=as.numeric(dataid))
+cesd_endline <- cesd_endline %>% select(dataid, childid, endline_depress_cesdstyle) %>% 
+  rename(cesd_sum_ee_t3=endline_depress_cesdstyle) %>%
+  mutate(childid=as.numeric(paste0(dataid,gsub("T", "", childid))), 
+         dataid=as.numeric(dataid))
+
+dfull <- dfull %>% rename(cesd_sum_t2_old = cesd_sum_t2,
+                          cesd_sum_ee_t3_old = cesd_sum_ee_t3)
+
+dfull <- left_join(dfull, cesd_midline, by=c("dataid","childid"))
+dfull <- left_join(dfull, cesd_endline, by=c("dataid","childid"))
+
+summary(d$cesd_sum_t2)
+summary(d$cesd_sum_t2_old)
+summary(d$cesd_sum_ee_t3)
+summary(d$cesd_sum_ee_t3_old)
+
+
 # add variables to turn cesd into binary variables
 # classify top 25% of mothers in sample as experiencing high depressive symptoms
 cesd_t2_q<-quantile(dfull$cesd_sum_t2, na.rm=T)[4]
@@ -100,3 +139,4 @@ dfull$cesd_sum_ee_t3_binary<-ifelse(dfull$cesd_sum_ee_t3 >= cesd_t3_q, 1, 0)
 
 #Save new dataset
 saveRDS(dfull, paste0(dropboxDir,"Data/Cleaned/Audrie/ipv-immune-analysis-dataset.RDS"))
+

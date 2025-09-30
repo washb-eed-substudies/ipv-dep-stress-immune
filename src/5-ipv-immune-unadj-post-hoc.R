@@ -69,6 +69,8 @@ Yvars <- c("th1_z_t2", "t2_ln_il12", "t2_ln_ifn", "th2_z_t2", "t2_ln_il4", "t2_l
 Yvars[!(Yvars %in% colnames(d))]
 
 
+
+
 i=Xvars_t2[1]
 j=Yvars[1]
 
@@ -78,12 +80,7 @@ for(i in Xvars_t2){
   for(j in Yvars){
     cat(i,"\n")
     cat(j,"\n")
-    if(grepl("_t2",j)|grepl("t2_",j)){
-      Ws = Wvars_t2_outcomes[[i]]
-    }else{
-      Ws = Wvars_t3_outcomes[[i]]
-    }
-    
+
     res_unadj <- fit_RE_gam(d=d, X=i, Y=j,  W=NULL)
     res <- data.frame(X=i, Y=j, fit=I(list(res_unadj$fit)), dat=I(list(res_unadj$dat)))
     posthoc_models <- bind_rows(posthoc_models, res)

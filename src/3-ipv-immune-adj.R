@@ -287,36 +287,6 @@ for(i in 1:nrow(H3_models)){
   H3_plot_data <-  bind_rows(H3_plot_data, data.frame(Xvar=res$X, Yvar=res$Y, adj=0, simul_plot$pred))
 }
 
-=H3_models$X
-
-H3_plot_list
-
-#cesd_sum_t2  t2_ratio_th1_th17
-H3_plot_list[[3]] + geom_vline(xintercept = 6) + geom_vline(xintercept =   16)
-# cesd_sum_t2_binary      sumscore_t2_Z
-H3_plot_list[[48]]
-
-res_unadj <- fit_RE_gam(d=d, X="cesd_sum_t2", Y="t2_ratio_th1_th17",  W=NULL)
-preds_unadj <- predict_gam_diff(fit=res_unadj$fit, d=res_unadj$dat, quantile_diff=c(0.25,0.75), Xvar="cesd_sum_t2", Yvar="t2_ratio_th1_th17", binaryX = F)
-preds_unadj$res
-simul_plot_unadj <- gam_simul_CI(res_unadj$fit, res_unadj$dat, xlab="", ylab="", title="unadj")
-simul_plot_unadj$p
-
-res_adj <- fit_RE_gam(d=d, X="cesd_sum_t2", Y="t2_ratio_th1_th17",  W=Wvars_t2_outcomes$cesd_sum_t2)
-preds <- predict_gam_diff(fit=res_adj$fit, d=res_adj$dat, quantile_diff=c(0.25,0.75), Xvar="cesd_sum_t2", Yvar="t2_ratio_th1_th17", binaryX = F)
-preds$res
-preds2 <- predict_gam_diff(fit=res_adj$fit, d=res_adj$dat, quantile_diff=c(0.15,0.85), Xvar="cesd_sum_t2", Yvar="t2_ratio_th1_th17", binaryX = F)
-preds2$res
-
-
-
-summary(res_adj$fit)
-res <- glm(t2_ratio_th1_th17 ~ cesd_sum_t2 + momage + Nlt18 +  walls + HHwealth + month_bt2, data=d)
-summary(res)
-
-
-H3_res[H3_res$Pval<0.05,]
-
 #Save models
 saveRDS(H3_models, here("models/H3_adj_models.RDS"))
 

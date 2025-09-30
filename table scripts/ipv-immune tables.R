@@ -145,12 +145,12 @@ save_as_docx("Table 1: Association between Exposure to IPV and Child Immune Stat
              "Table 2: Association between Parental Stress and Child Immune Status" = tbl3flex, 
              "Table 3: Association between CES-D Scores at Year 1 and Child Immune Status" = tbl4flex, 
              "Table 4: Association between CES-D Scores at Year 2 and Child Immune Status" = tbl5flex, 
-             path='C:/Users/Sophia/Documents/WASH/WASH IPV and Immune/ipv-immune main.docx', 
+             path=here('tables/ipv-immune main.docx'), 
              pr_section = sect_properties)
 
 save_as_docx("Table S1: Association between Exposure to IPV and Child Immune Status" = tbl1flexsupp, 
              "Table S2: Association between Parental Stress and Child Immune Status" = tbl2flexsupp, 
              "Table S3: Association between CES-D Scores at Year 1 and Child Immune Status" = tbl3flexsupp, 
              "Table S4: Association between CES-D Scores at Year 2 and Child Immune Status" = tbl4flexsupp, 
-             path=here('C:/Users/Sophia/Documents/WASH/WASH IPV and Immune/ipv-immune supplementary.docx'))
+             path=here('tables/ipv-immune supplementary.docx'))
 

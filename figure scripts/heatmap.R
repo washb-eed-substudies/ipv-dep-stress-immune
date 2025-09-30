@@ -129,14 +129,6 @@ plot_sig_heatmap(H3_res, pval_var="corrected.Pval")
 
 
 
-plotdf <- H1_res %>% mutate(contrast=paste0(Y,"-",X))
-  arrange(point.diff) %>% 
-  mutate(contrast=factor(contrast, levels=unique(contrast)))
-
-ggplot(plotdf, aes(x=X, y=point.diff)) + geom_point() + 
-  geom_linerange(aes(ymin=lb.diff, ymax=ub.diff))
-
-
 
 
 

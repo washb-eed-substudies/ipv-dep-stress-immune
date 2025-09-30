@@ -3,15 +3,13 @@ rm(list=ls())
 library('flextable')
 library('officer')
 library('here')
-source(here("~/WASH Benefits/ipv-dep-stress-immune/table-functions.R")) 
 try(source(here("table-functions.R")) )
 source(here::here("0-config.R"))
 
 # load enrollment characteristics and results
 # d <- readRDS("/Users/gabby/Documents/WASH Benefits/bangladesh-cleaned-master-data.RDS")
 #Andrew file path
-try(H1ph <- readRDS(paste0(here(),"/results/post-hoc/posthoc_unadjusted_res.RDS")))
-try(H1ph <- readRDS(here("~/WASH Benefits/ipv-dep-stress-immune/results/post-hoc/posthoc_unadjusted_res.RDS")))
+try(H1ph <- readRDS(paste0(here(),"/results/post-hoc/posthoc_unadj_res.RDS")))
 
 
 #### MAIN TABLES ####
