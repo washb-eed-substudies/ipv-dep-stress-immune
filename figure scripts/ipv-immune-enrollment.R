@@ -7,7 +7,8 @@ library(dplyr)
 data <- tibble(x = -10:100, y= -10:100)
 head(data)
 
-d <- readRDS("/Users/gabby/Downloads/bangladesh-cleaned-master-data.RDS")
+d <- readRDS(paste0(dropboxDir,"Data/Cleaned/Audrie/ipv-immune-analysis-dataset.RDS"))
+
 exposures_y1 <- c("life_viol_any_t3", "cesd_sum_t2", "cesd_sum_t2_binary")
 outcomes_y1 <- c("t2_ln_crp", "t2_ln_agp", "t2_ln_ifn", "sumscore_t2_Z","t2_ln_igf", "t2_ratio_gmc_il10", "t2_ratio_il2_il10", "t2_ratio_th1_il10","t2_ratio_th2_il10","t2_ratio_th17_il10", "t2_ratio_th1_th2", "t2_ratio_th1_th17")
 exposures_y2 <- c("pss_sum_mom_t3", "pss_sum_dad_t3", "cesd_sum_ee_t3", "cesd_sum_ee_t3_binary")
@@ -156,5 +157,6 @@ p +
 p <- p +
   annotate("text", x= 50, y=-10,label= "*This substudy did not assess stress measures in the Nutrition and the Water, Sanitation, and Handwashing arms at Year 1", size=3)
 
-# YOU MAY NEED TO CHANGE THE FILE PATHS HERE
-ggsave(p, file = here("~/WASH Benefits/ipv-dep-stress-immune/figures/enrollment_figure.jpg"), height=14, width=9)
+p
+
+ggsave(p, file = here("figures/enrollment_figure.jpg"), height=14, width=9)
