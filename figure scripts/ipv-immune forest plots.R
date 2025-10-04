@@ -20,6 +20,12 @@ unique(H1_res$Y)
 unique(H2_res$Y)
 unique(H3_res$Y)
 
+#drop IGF rows
+
+H1_res <- H1_res %>% filter(!Y %in% c("t2_ln_igf", "t3_ln_igf"))
+H2_res <- H2_res %>% filter(!Y %in% c("t2_ln_igf", "t3_ln_igf"))
+H3_res <- H3_res %>% filter(!Y %in% c("t2_ln_igf", "t3_ln_igf"))
+
 H1_res <- H1_res %>% mutate(X=factor(X, levels=c("viol_any_t2", "life_viol_any_t3", "viol_any_preg")),
                             sig=factor(1*(Pval<0.05)))
 H2_res <- H2_res %>% mutate(X=factor(X, levels=c("pss_sum_mom_t3", "pss_sum_dad_t3")),
@@ -46,14 +52,14 @@ y_labels <- c(
   "t3_ratio_gmc_il10" = "GMC/Interleukin-10",
   "t2_ratio_il2_il10" = "Interleukin-2/Interleukin-10",
   "t3_ratio_il2_il10" = "Interleukin-2/Interleukin-10",
-  "t2_ln_igf" = "IGF-1",
-  "t3_ln_igf" = "IGF-1",
+  # "t2_ln_igf" = "IGF-1",
+  # "t3_ln_igf" = "IGF-1",
   "t2_ln_crp" = "C-reactive protein",
   "t3_ln_crp" = "C-reactive protein",
-  "t2_ln_agp" = "??-1-acid glycoprotein",
-  "t3_ln_agp" = "??-1-acid glycoprotein",
-  "t2_ln_ifn" = "Interferon-??",
-  "t3_ln_ifn" = "Interferon-??",
+  "t2_ln_agp" = "\u03B1-1-acid glycoprotein",
+  "t3_ln_agp" = "\u03B1-1-acid glycoprotein",
+  "t2_ln_ifn" = "Interferon-\u03B3",
+  "t3_ln_ifn" = "Interferon-\u03B3",
   "sumscore_t2_Z" = "Composite immune score",
   "sumscore_t3_Z" = "Composite immune score"
 )
@@ -132,8 +138,8 @@ p3 = ggplot(H3_res, aes(x = Y, y = point.diff, ymin = lb.diff, ymax = ub.diff,
         panel.grid.minor.y = element_blank())
 
 #save the plots 
-ggsave(p1, file=here("figures/figure-H1-ipv-immune-forest.png"), width=8, height=6)
+ggsave(p1, file=here("figures/figure-H1-ipv-immune-forest.png"), width=9.5, height=6)
 ggsave(p2, file=here("figures/figure-H2-stress-immune-forest.png"), width=8, height=4)
-ggsave(p3, file=here("figures/figure-H3-depression-immune-forest.png"), width=8, height=6)
+ggsave(p3, file=here("figures/figure-H3-depression-immune-forest.png"), width=9, height=6)
 
 
