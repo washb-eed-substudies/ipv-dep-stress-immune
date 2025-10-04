@@ -102,31 +102,36 @@ cesd_midline <- read_dta(paste0(dropboxDir,"Data/Cleaned/Helen/washb-bangladesh-
 cesd_endline <- read_dta(paste0(dropboxDir,"Data/Cleaned/Helen/washb-bangladesh-momdepression-year2_revised_29aug2025.dta"))
 
 
+summary(dfull$cesd_sum_t2)
 summary(cesd_midline$midline_depression_cesdstyle)
-summary(cesd_midline$midline_depression_no4)
+
+summary(dfull$cesd_sum_ee_t3)
 summary(cesd_endline$endline_depress_cesdstyle)
+
+
+summary(cesd_midline$midline_depression_no4)
 summary(cesd_endline$endline_depress_cesdstyle_no4)
 
 
-cesd_midline <- cesd_midline %>% select(dataid, childid, midline_depression_cesdstyle) %>% 
+cesd_midline <- cesd_midline %>% select(dataid, childid, midline_depression_cesdstyle) %>%
   rename(cesd_sum_t2=midline_depression_cesdstyle) %>%
-  mutate(childid=as.numeric(paste0(dataid,gsub("T", "", childid))), 
+  mutate(childid=as.numeric(paste0(dataid,gsub("T", "", childid))),
          dataid=as.numeric(dataid))
-cesd_endline <- cesd_endline %>% select(dataid, childid, endline_depress_cesdstyle) %>% 
+cesd_endline <- cesd_endline %>% select(dataid, childid, endline_depress_cesdstyle) %>%
   rename(cesd_sum_ee_t3=endline_depress_cesdstyle) %>%
-  mutate(childid=as.numeric(paste0(dataid,gsub("T", "", childid))), 
+  mutate(childid=as.numeric(paste0(dataid,gsub("T", "", childid))),
          dataid=as.numeric(dataid))
 
-dfull <- dfull %>% rename(cesd_sum_t2_old = cesd_sum_t2,
-                          cesd_sum_ee_t3_old = cesd_sum_ee_t3)
+dfull <- dfull %>% rename(cesd_sum_t2_old = cesd_sum_t2)#,
+                          #cesd_sum_ee_t3_old = cesd_sum_ee_t3)
 
 dfull <- left_join(dfull, cesd_midline, by=c("dataid","childid"))
-dfull <- left_join(dfull, cesd_endline, by=c("dataid","childid"))
+#dfull <- left_join(dfull, cesd_endline, by=c("dataid","childid"))
 
 summary(d$cesd_sum_t2)
 summary(d$cesd_sum_t2_old)
-summary(d$cesd_sum_ee_t3)
-summary(d$cesd_sum_ee_t3_old)
+# summary(d$cesd_sum_ee_t3)
+# summary(d$cesd_sum_ee_t3_old)
 
 
 # add variables to turn cesd into binary variables
